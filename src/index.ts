@@ -1,4 +1,4 @@
-import { FinanceCalculator, ItemValidator, MaxPriceValidator, OrderManagement, PriceValidator, Validator } from "app";
+import { FinanceCalculator, ItemValidator, MaxPriceValidator, OrderManagement, PriceValidator, Validator } from "../src/app";
 
   const orders = [
     { id: 1, item: "Sponge", price: 15 },
@@ -20,8 +20,6 @@ const rules = [
   for(const order of orders){
     orderManager.addOrder(order.item,order.price);
   }
-  
-  let orderId = 6; // Start new orders from ID 6
   
   // Adding a new order directly
   const newItem = "Marble";

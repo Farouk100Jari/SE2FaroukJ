@@ -1,6 +1,7 @@
 //SOLID Principles
 
-import { Interface } from "readline";
+import { log } from "console";
+import logger from "./util/logger";
 
 //Single Responsibility Principle (SRP)
 //Open Closed Principle (OCP)
@@ -8,7 +9,7 @@ import { Interface } from "readline";
 //Interface Segregation Principle (ISP)
 //Dependency Inversion Principle (DIP)
 
-interface Order{
+export default interface Order{
     id:number,
     item:string,
     price:number
@@ -28,14 +29,23 @@ export class OrderManagement{
     }
 
     addOrder(item : string,price:number){
-        const order: Order = {id:this.orders.length+1,item,price};
-        this.validator.validate(order);
+
+        try{
+            const order: Order = {id:this.orders.length+1,item,price};
+            this.validator.validate(order);
+            this.orders.push(order);
+        }catch(error : any){
+            throw new Error(`OrderManagement: Error adding order: ${error.message}`);
+        }
         
-        this.orders.push(order);
     }
 
     getOrder(id:number){
-        return this.getOrders().find(order => order.id === id);
+        const order = this.getOrders().find(order => order.id === id)
+        if (!order){
+            logger.warn(`OrderManagement: Order with ID ${id} not found`);
+        }
+        return order;
     }
 
     getTotalRevenue(){
@@ -98,6 +108,7 @@ export class ItemValidator implements IValidator,IPossibleItems {
 export class PriceValidator implements IValidator {
     validate(order: Order): void {
         if (order.price <= 0) {
+            logger.error("PriceValidator: Price is negative");
             throw new Error("Price must be greater than zero");
         }
     }

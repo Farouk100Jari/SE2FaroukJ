@@ -4,6 +4,6 @@ import path from "path"
 dotenv.config({path : path.join(__dirname,'../../.env')})
 
 export default {
-    env: process.env.NODE_ENV || 'development',
-    SECRET : process.env.secret
+    logDir: process.env.LOG_DIR || './logs', 
+    isDev: process.env.NODE_ENV === 'development' // Checks if the environment type is 'development'.
 }

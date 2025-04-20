@@ -9,7 +9,7 @@
     "prebuild": "npm run clean && npm run lint",
     "build": "tsc",
     "postbuild": "echo 'done'",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prestart": "npm run build",
     "start": "node build/index.js",
     "dev": "ts-node-dev --respawn src/index.ts"
@@ -32,6 +32,7 @@
     "typescript-eslint": "^8.30.1"
   },
   "dependencies": {
-    "dotenv": "^16.5.0"
+    "dotenv": "^16.5.0",
+    "winston": "^3.17.0"
   }
 }
