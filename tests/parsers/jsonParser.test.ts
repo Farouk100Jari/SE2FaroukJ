@@ -68,5 +68,4 @@ describe('JSONParser', () => {
             'Failed to parse JSON file'
         );
     });
-    
 });
