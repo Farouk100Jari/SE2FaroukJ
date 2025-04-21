@@ -1,8 +1,6 @@
 import winston from 'winston';
 import fs from 'fs';
-import path, { format } from 'path';
 import config from '../config'
-import { log } from 'console';
 
 const { isDev, logDir } =config;
 
