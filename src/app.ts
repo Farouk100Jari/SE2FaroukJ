@@ -1,6 +1,5 @@
 //SOLID Principles
 
-import { log } from "console";
 import logger from "./util/logger";
 
 //Single Responsibility Principle (SRP)
@@ -34,8 +33,8 @@ export class OrderManagement{
             const order: Order = {id:this.orders.length+1,item,price};
             this.validator.validate(order);
             this.orders.push(order);
-        }catch(error : any){
-            throw new Error(`OrderManagement: Error adding order: ${error.message}`);
+        }catch(error : unknown){
+            throw new Error(`OrderManagement: Error adding order: ${error}`);
         }
         
     }

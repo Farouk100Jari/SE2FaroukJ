@@ -1,48 +1,58 @@
-import { FinanceCalculator, ItemValidator, MaxPriceValidator, OrderManagement, PriceValidator, Validator } from "../src/app";
+import { CakeBuilder } from "./model/builders/Cake.builder";  
+import { BookBuilder } from "./model/builders/Book.builder";
+import { ToyBuilder } from "./model/builders/Toy.builder";
 
-  const orders = [
-    { id: 1, item: "Sponge", price: 15 },
-    { id: 2, item: "Chocolate", price: 20 },
-    { id: 3, item: "Fruit", price: 18 },
-    { id: 4, item: "Red Velvet", price: 25 },
-    { id: 5, item: "Coffee", price: 8 },
-  ];
 
-  //Main
+async function main() {
 
-const rules = [
-    new PriceValidator(),
-    new MaxPriceValidator(),
-    new ItemValidator()
-];
+  const cake = new CakeBuilder()
+    .setType("Birthday Cake")
+    .setFlavor("Chocolate")
+    .setFilling("Vanilla Cream")
+    .setSize("Large")
+    .setLayers(3)
+    .setFrostingType("Buttercream")
+    .setFrostingFlavor("Chocolate")
+    .setDecorationType("Sprinkles")
+    .setDecorationColor("Rainbow")
+    .setCustomMessage("Happy Birthday!")
+    .setShape("Round")
+    .setAllergies("Nuts")
+    .setSpecialIngredients("Organic Eggs")
+    .setPackagingType("Box")
+    .build();
 
-  const orderManager = new OrderManagement(new Validator(rules),new FinanceCalculator());
-  for(const order of orders){
-    orderManager.addOrder(order.item,order.price);
-  }
-  
-  // Adding a new order directly
-  const newItem = "Marble";
-  const newPrice = 22;
+    console.log(cake); // Output: CAKE   
+    
+    const book = new BookBuilder()
+    .setOrderId("1")
+    .setTitle("The Great Gatsby")
+    .setAuthor("F. Scott Fitzgerald")
+    .setGenre("Fiction")
+    .setFormat("Hardcover")
+    .setLanguage("English")
+    .setPublisher("Scribner")
+    .setSpecialEdition("Collector's Edition")
+    .setPackaging("Gift Wrap")
+    .setPrice(29.99)
+    .setQuantity(1)
+    .build();
 
-  orderManager.addOrder(newItem,newPrice);
-  
-  console.log("Orders after adding a new order:", orderManager.getOrders());
-  
-  // Calculate Total Revenue directly
-  console.log("Total Revenue:", orderManager.getTotalRevenue());
-  
-  // Calculate Average Buy Power directly
-  console.log("Average Buy Power:", orderManager.getBuyPower());
-  
-  // Fetching an order directly
-  const fetchId = 2;
-  const fetchedOrder = orderManager.getOrder(fetchId);
-  console.log("Order with ID 2:", fetchedOrder);
-  
-  // Attempt to fetch a non-existent order
-  const nonExistentId = 10;
-  const nonExistentOrder = orderManager.getOrder(nonExistentId);
-  console.log("Order with ID 10 (non-existent):", nonExistentOrder);
+    console.log(book); // Output: BOOK
 
-  console.log("PTest");
+    const toy = new ToyBuilder()
+    .setOrderId("2")
+    .setType("Action Figure")
+    .setAgeGroup("6-12 years")
+    .setBrand("LEGO")
+    .setMaterial("Plastic")
+    .setBatteryRequired(false)
+    .setEducational(true)
+    .setPrice(19.99)
+    .setQuantity(2)
+    .build();
+
+    console.log(toy); // Output: TOY
+}
+
+main();
