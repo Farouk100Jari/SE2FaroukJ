@@ -7,7 +7,7 @@ export class XMLParser {
      * @param filePath - The path to the XML file to parse.
      * @returns A promise that resolves to the parsed object.
      */
-    async parseFile(filePath: string): Promise<any> {
+    async parseFile(filePath: string): Promise<unknown> {
         try {
             const xmlString = await fs.readFile(filePath, 'utf-8'); // Read the file as a string
 
@@ -21,7 +21,7 @@ export class XMLParser {
                 trim: true, // Trim whitespace from text nodes
             });
             return result;
-        } catch (error: any) {
+        } catch (error:any) {
             throw new Error(`Failed to parse XML file: ${error.message}`);
         }
     }
