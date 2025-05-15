@@ -1,12 +1,12 @@
-import { Item, ItemCategory } from "./Item.model";
+import { IItem, ItemCategory } from "./IItem";
 
-export class Cake implements Item{
+export class Cake implements IItem{
     
     private type: string;
     private flavor: string;
     private filling: string;
     private size: string;
-    private layers: string;
+    private layers: number;
     private frostingType: string;
     private frostingFlavor: string;
     private decorationType: string;
@@ -22,7 +22,7 @@ export class Cake implements Item{
         flavor: string,
         filling: string,
         size: string,
-        layers: string,
+        layers: number,
         frostingType: string,
         frostingFlavor: string,
         decorationType: string,
@@ -69,7 +69,7 @@ export class Cake implements Item{
         return this.size;
     }
 
-    getLayers(): string {
+    getLayers(): number {
         return this.layers;
     }
 

@@ -1,48 +1,58 @@
-import { FinanceCalculator, ItemValidator, MaxPriceValidator, OrderManagement, PriceValidator, Validator } from "../src/app";
+import { readCsvFile } from "./parsers/csvParser";
+import { JSONParser } from "./parsers/jsonParser";
+import { CSVCakeMapper } from "./mappers/Cake.mapper";
+import logger from "./util/logger";
+import { CSVOrderMapper } from "./mappers/CSVOrder.mapper";
+import { JSONBookMapper } from "./mappers/Book.mapper";
+import { JSONOrderMapper } from "./mappers/JSONOrder.mapper";
+import { XMLParser } from "./parsers/xmlParser";
+import { ToyMapper } from "./mappers/Toy.mapper";
+import { XMLOrderMapper } from "./mappers/XMLOrder.mapper";
 
-  const orders = [
-    { id: 1, item: "Sponge", price: 15 },
-    { id: 2, item: "Chocolate", price: 20 },
-    { id: 3, item: "Fruit", price: 18 },
-    { id: 4, item: "Red Velvet", price: 25 },
-    { id: 5, item: "Coffee", price: 8 },
-  ];
 
-  //Main
+async function main() {
+    
+    mapCakeData();
+    mapBookData();
+    mapToyData();
 
-const rules = [
-    new PriceValidator(),
-    new MaxPriceValidator(),
-    new ItemValidator()
-];
+}
 
-  const orderManager = new OrderManagement(new Validator(rules),new FinanceCalculator());
-  for(const order of orders){
-    orderManager.addOrder(order.item,order.price);
-  }
-  
-  // Adding a new order directly
-  const newItem = "Marble";
-  const newPrice = 22;
+async function mapCakeData(){
+    const cakeData = await readCsvFile('src/data/cake orders.csv');
+    
+    const cakemapper = new CSVCakeMapper();
+    const orderMapper = new CSVOrderMapper(cakemapper);
+    const cakes = cakeData.map(row => orderMapper.map(row));
+    
+    logger.info("List of Cake Orders: \n %o", cakes);
+}
 
-  orderManager.addOrder(newItem,newPrice);
-  
-  console.log("Orders after adding a new order:", orderManager.getOrders());
-  
-  // Calculate Total Revenue directly
-  console.log("Total Revenue:", orderManager.getTotalRevenue());
-  
-  // Calculate Average Buy Power directly
-  console.log("Average Buy Power:", orderManager.getBuyPower());
-  
-  // Fetching an order directly
-  const fetchId = 2;
-  const fetchedOrder = orderManager.getOrder(fetchId);
-  console.log("Order with ID 2:", fetchedOrder);
-  
-  // Attempt to fetch a non-existent order
-  const nonExistentId = 10;
-  const nonExistentOrder = orderManager.getOrder(nonExistentId);
-  console.log("Order with ID 10 (non-existent):", nonExistentOrder);
+async function mapBookData(){
+    const bookData = await JSONParser.parseJSONFile('src/data/book orders.json');
 
-  console.log("PTest");
+    const bookMapper = new JSONBookMapper();
+    const booksOrderMapper = new JSONOrderMapper(bookMapper);
+
+    // If you want to ensure bookData is always an array, you can handle it in the parser itself.
+    // Here, we ensure bookData is an array of objects before mapping.
+    const books = Array.isArray(bookData)
+        ? bookData.map((row: any) => booksOrderMapper.map(row))
+        : [];
+
+    logger.info("List of Book Orders: \n %o", books);
+}
+
+async function mapToyData(){
+
+    const toyData = await XMLParser.parseFile('src/data/toy orders.xml');
+
+    const toyMapper = new ToyMapper(); // Assuming you have a mapper for XML as well
+    const toyOrderMapper = new XMLOrderMapper(toyMapper);
+
+    const toys = toyData.data.row.map((row: any) => toyOrderMapper.map(row));
+    
+    logger.info("List of Toy Orders: \n %o", toys);
+}
+
+main();

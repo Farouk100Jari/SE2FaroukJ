@@ -7,7 +7,7 @@ export class XMLParser {
      * @param filePath - The path to the XML file to parse.
      * @returns A promise that resolves to the parsed object.
      */
-    async parseFile(filePath: string): Promise<any> {
+    static async parseFile(filePath: string): Promise<any> {
         try {
             const xmlString = await fs.readFile(filePath, 'utf-8'); // Read the file as a string
 
