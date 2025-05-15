@@ -4,40 +4,34 @@ export class Book implements IItem {
     private orderId: string;
     private title: string;
     private author: string;
-    private price: number;
     private genre: string;
     private format: string;
     private language: string;
     private publisher: string;
     private specialEdition: string;
     private packaging: string;
-    private quantity: number;
     
 
     constructor(
         orderId: string,
         title: string,
         author: string,
-        price: number,
         genre: string,
         format: string,
         language: string,
         publisher: string,
         specialEdition: string,
-        packaging: string,
-        quantity: number
+        packaging: string
     ) {
         this.orderId = orderId;
         this.title = title;
         this.author = author;
-        this.price = price;
         this.genre = genre;
         this.format = format;
         this.language = language;
         this.publisher = publisher;
         this.specialEdition = specialEdition;
         this.packaging = packaging;
-        this.quantity = quantity;
     }
 
     getCategory(): ItemCategory {
@@ -55,10 +49,6 @@ export class Book implements IItem {
 
     getAuthor(): string {
         return this.author;
-    }
-
-    getPrice(): number {
-        return this.price;
     }
 
     getGenre(): string {
@@ -83,9 +73,5 @@ export class Book implements IItem {
 
     getPackaging(): string {
         return this.packaging;
-    }
-
-    getQuantity(): number {
-        return this.quantity;
     }
 }

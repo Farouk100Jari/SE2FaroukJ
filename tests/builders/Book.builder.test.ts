@@ -26,9 +26,7 @@ describe('BookBuilder', () => {
             .setLanguage(validBookData.language)
             .setPublisher(validBookData.publisher)
             .setSpecialEdition(validBookData.specialEdition)
-            .setPackaging(validBookData.packaging)
-            .setPrice(validBookData.price)
-            .setQuantity(validBookData.quantity);
+            .setPackaging(validBookData.packaging);
     }
 
     let bookBuilder: BookBuilder;
@@ -48,8 +46,6 @@ describe('BookBuilder', () => {
         expect(book.getPublisher()).toBe(validBookData.publisher);
         expect(book.getSpecialEdition()).toBe(validBookData.specialEdition);
         expect(book.getPackaging()).toBe(validBookData.packaging);
-        expect(book.getPrice()).toBe(validBookData.price);
-        expect(book.getQuantity()).toBe(validBookData.quantity);
     });
 
     it('should throw an error if a required field is missing', () => {
@@ -65,11 +61,5 @@ describe('BookBuilder', () => {
         // @ts-expect-error
         bookBuilder['author'] = null;
         expect(() => bookBuilder.build()).toThrow('All required fields must be set before building the Book object.');
-    });
-
-    it('should allow setting fields with incorrect types but fail at build if required', () => {
-        bookBuilder.setPrice('not-a-number' as unknown as number); // This should be a number
-        expect(() => bookBuilder.build()).not.toThrow(); // Because 'not-a-number' is not undefined/null
-        // But the Book constructor may fail if it expects a number
     });
 });

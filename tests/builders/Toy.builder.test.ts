@@ -28,8 +28,6 @@ describe("ToyBuilder", () => {
             .setMaterial(validToyData.material)
             .setBatteryRequired(validToyData.batteryrequired)
             .setEducational(validToyData.educational)
-            .setPrice(validToyData.price)
-            .setQuantity(validToyData.quantity)
     }
 
     let toyBuilder = buildValidToy();
@@ -44,8 +42,6 @@ describe("ToyBuilder", () => {
         expect(toy.getMaterial()).toBe(validToyData.material);
         expect(toy.isBatteryRequired()).toBe(validToyData.batteryrequired);
         expect(toy.isEducational()).toBe(validToyData.educational);
-        expect(toy.getPrice()).toBe(validToyData.price);
-        expect(toy.getQuantity()).toBe(validToyData.quantity);
     });
 
     it("should throw an error if a required field is missing", () => {
@@ -56,9 +52,7 @@ describe("ToyBuilder", () => {
             .setBrand(validToyData.brand)
             .setMaterial(validToyData.material)
             .setBatteryRequired(validToyData.batteryrequired)
-            .setEducational(validToyData.educational)
-            .setPrice(validToyData.price);
-        // quantity is missing
+            //Educational
         expect(() => builder.build()).toThrow("All required fields must be set before building the Toy object.");
     });
 
@@ -67,12 +61,10 @@ describe("ToyBuilder", () => {
             .setOrderId(validToyData.orderId)
             .setType(validToyData.type)
             .setAgeGroup(validToyData.ageGroup)
-            .setBrand(validToyData.brand)
+            .setBrand(null as any) // Set to null
             .setMaterial(validToyData.material)
             .setBatteryRequired(validToyData.batteryrequired)
-            .setEducational(validToyData.educational)
-            .setPrice(validToyData.price)
-            .setQuantity(null as any);
+            .setEducational(validToyData.educational);
         expect(() => builder.build()).toThrow("All required fields must be set before building the Toy object.");
     });
 
@@ -81,26 +73,10 @@ describe("ToyBuilder", () => {
             .setOrderId(validToyData.orderId)
             .setType(validToyData.type)
             .setAgeGroup(validToyData.ageGroup)
-            .setBrand(validToyData.brand)
+            .setBrand(undefined as any) // Set to undefined
             .setMaterial(validToyData.material)
             .setBatteryRequired(validToyData.batteryrequired)
-            .setEducational(validToyData.educational)
-            .setPrice(validToyData.price)
-            .setQuantity(undefined as any);
+            .setEducational(validToyData.educational);
         expect(() => builder.build()).toThrow("All required fields must be set before building the Toy object.");
-    });
-
-    it("should throw if a number field is set to a non-number value", () => {
-        const builder = new ToyBuilder()
-            .setOrderId(validToyData.orderId)
-            .setType(validToyData.type)
-            .setAgeGroup(validToyData.ageGroup)
-            .setBrand(validToyData.brand)
-            .setMaterial(validToyData.material)
-            .setBatteryRequired(validToyData.batteryrequired)
-            .setEducational(validToyData.educational)
-            .setPrice("not-a-number" as any)
-            .setQuantity(validToyData.quantity);
-        expect(() => builder.build()).not.toThrow(); // No runtime type check
     });
 });

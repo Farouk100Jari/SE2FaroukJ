@@ -11,8 +11,10 @@ export class BookBuilder {
     private publisher!: string;
     private specialEdition!: string;
     private packaging!: string;
-    private price!: number;
-    private quantity!: number;
+
+    public static newBuilder(): BookBuilder {   
+        return new BookBuilder();
+    }
 
     setOrderId(orderId: string): BookBuilder {
         this.orderId = orderId;
@@ -59,29 +61,17 @@ export class BookBuilder {
         return this;
     }
 
-    setPrice(price: number): BookBuilder {
-        this.price = price;
-        return this;
-    }
-
-    setQuantity(quantity: number): BookBuilder {
-        this.quantity = quantity;
-        return this;
-    }
-
     build(){
         const requiredFields = [
             this.orderId,
             this.title,
             this.author,
-            this.price,
             this.genre,
             this.format,
             this.language,
             this.publisher,
             this.specialEdition,
-            this.packaging,
-            this.quantity
+            this.packaging
         ];
 
         const allFieldsSet = requiredFields.every(field => field !== undefined && field !== null);
@@ -94,14 +84,12 @@ export class BookBuilder {
             this.orderId,
             this.title,
             this.author,
-            this.price,
             this.genre,
             this.format,
             this.language,
             this.publisher,
             this.specialEdition,
-            this.packaging,
-            this.quantity
+            this.packaging
         );
     }
 }

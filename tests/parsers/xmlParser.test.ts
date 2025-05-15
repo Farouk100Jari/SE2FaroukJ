@@ -9,7 +9,6 @@ jest.mock('fs', () => ({
 }));
 
 describe('XMLParser', () => {
-    const parser = new XMLParser();
     const dataFolder = path.resolve(__dirname, '../../src/data');
 
     afterEach(() => {
@@ -23,7 +22,7 @@ describe('XMLParser', () => {
 
         (fs.readFile as jest.Mock).mockResolvedValue(mockXML);
 
-        const result = await parser.parseFile(validFilePath);
+        const result = await XMLParser.parseFile(validFilePath);
         expect(result).toEqual(expectedResult);
         expect(fs.readFile).toHaveBeenCalledWith(validFilePath, 'utf-8');
     });
@@ -33,7 +32,7 @@ describe('XMLParser', () => {
         const malformedFilePath = path.join(dataFolder, 'malformed.xml');
         (fs.readFile as jest.Mock).mockResolvedValue(mockMalformedXML);
 
-        await expect(parser.parseFile(malformedFilePath)).rejects.toThrow(
+        await expect(XMLParser.parseFile(malformedFilePath)).rejects.toThrow(
             'Failed to parse XML file'
         );
         expect(fs.readFile).toHaveBeenCalledWith(malformedFilePath, 'utf-8');
@@ -44,7 +43,7 @@ describe('XMLParser', () => {
         const emptyFilePath = path.join(dataFolder, 'empty.xml');
         (fs.readFile as jest.Mock).mockResolvedValue(mockEmptyXML);
 
-        await expect(parser.parseFile(emptyFilePath)).rejects.toThrow(
+        await expect(XMLParser.parseFile(emptyFilePath)).rejects.toThrow(
             'Failed to parse XML file'
         );
         expect(fs.readFile).toHaveBeenCalledWith(emptyFilePath, 'utf-8');
@@ -71,7 +70,7 @@ describe('XMLParser', () => {
         const nestedFilePath = path.join(dataFolder, 'nested.xml');
         (fs.readFile as jest.Mock).mockResolvedValue(mockXML);
 
-        const result = await parser.parseFile(nestedFilePath);
+        const result = await XMLParser.parseFile(nestedFilePath);
         expect(result).toEqual(expectedResult);
         expect(fs.readFile).toHaveBeenCalledWith(nestedFilePath, 'utf-8');
     });
@@ -80,7 +79,7 @@ describe('XMLParser', () => {
         const nonExistentFilePath = path.join(dataFolder, 'nonexistent.xml');
         (fs.readFile as jest.Mock).mockRejectedValue(new Error('ENOENT: no such file or directory'));
 
-        await expect(parser.parseFile(nonExistentFilePath)).rejects.toThrow(
+        await expect(XMLParser.parseFile(nonExistentFilePath)).rejects.toThrow(
             'Failed to parse XML file: ENOENT: no such file or directory'
         );
         expect(fs.readFile).toHaveBeenCalledWith(nonExistentFilePath, 'utf-8');

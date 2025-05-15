@@ -19,19 +19,4 @@ export class CSVOrderMapper implements IMapper<string[], IOrder> {
             .build();
 
     }
-
-    // map(data: string[]): Order {
-    //     return OrderBuilder.newBuilder()
-    //         .setOrderId(data[0])
-    //         .setCustomerName(data[1])
-    //         .setCustomerEmail(data[2])
-    //         .setCustomerPhone(data[3])
-    //         .setDeliveryAddress(data[4])
-    //         .setDeliveryDate(new Date(data[5]))
-    //         .setDeliveryTime(data[6])
-    //         .setPaymentMethod(data[7])
-    //         .setTotalAmount(parseFloat(data[8]))
-    //         .setStatus(data[9])
-    //         .build();
-    // }
 }

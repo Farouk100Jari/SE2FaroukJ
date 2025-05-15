@@ -9,8 +9,10 @@ export class ToyBuilder {
     private material!: string;
     private batteryrequired!: boolean;
     private educational!: boolean;
-    private price!: number;
-    private quantity!: number;
+
+    public static newBuilder(): ToyBuilder {   
+        return new ToyBuilder();
+    }
 
     setOrderId(orderId: string): ToyBuilder {
         this.orderId = orderId;
@@ -47,16 +49,6 @@ export class ToyBuilder {
         return this;
     }
 
-    setPrice(price: number): ToyBuilder {
-        this.price = price;
-        return this;
-    }
-
-    setQuantity(quantity: number): ToyBuilder {
-        this.quantity = quantity;
-        return this;
-    }
-
     build(): Toy {
         const requiredFields = [
             this.orderId,
@@ -65,9 +57,7 @@ export class ToyBuilder {
             this.brand,
             this.material,
             this.batteryrequired,
-            this.educational,
-            this.price,
-            this.quantity
+            this.educational
         ];  
 
         const allFieldsProvided = requiredFields.every(field => field !== undefined && field !== null);
@@ -83,9 +73,7 @@ export class ToyBuilder {
             this.brand,
             this.material,
             this.batteryrequired,
-            this.educational,
-            this.price,
-            this.quantity
+            this.educational
         );
     }
 }
