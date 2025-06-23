@@ -19,4 +19,13 @@ export class JSONOrderMapper implements IMapper<any, IOrder> {
             .build();
 
     }
+
+    reverseMap(data: IOrder) {
+        return {
+            "Order ID": data.getId(),
+            ...this.itemMapper.reverseMap(data.getItem()),
+            "Quantity": data.getQuantity(),
+            "Price": data.getPrice()
+        };
+    }
 }

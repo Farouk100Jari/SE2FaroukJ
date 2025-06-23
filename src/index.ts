@@ -1,58 +1,59 @@
-import { readCsvFile } from "./parsers/csvParser";
-import { JSONParser } from "./parsers/jsonParser";
-import { CSVCakeMapper } from "./mappers/Cake.mapper";
+import { OrderRepository } from "./repository/sqlite/Order.repository";
+import { CakeRepository } from "./repository/sqlite/Cake.order.repository";
+import { CakeBuilder, IdentifiableCakeBuilder } from "./model/builders/Cake.builder";
+import { IdentifiableOrderItemBuilder, OrderBuilder } from "./model/builders/Order.builder";
 import logger from "./util/logger";
-import { CSVOrderMapper } from "./mappers/CSVOrder.mapper";
-import { JSONBookMapper } from "./mappers/Book.mapper";
-import { JSONOrderMapper } from "./mappers/JSONOrder.mapper";
-import { XMLParser } from "./parsers/xmlParser";
-import { ToyMapper } from "./mappers/Toy.mapper";
-import { XMLOrderMapper } from "./mappers/XMLOrder.mapper";
+import { log } from "console";
 
 
-async function main() {
+async function DBSandBox() {
+    const dbOrder = new OrderRepository(new CakeRepository());
+    await dbOrder.init();
     
-    mapCakeData();
-    mapBookData();
-    mapToyData();
+    const dbCake = new CakeRepository();
+    await dbCake.init();
 
+    //create identifiable cake
+    const cake = CakeBuilder.newBuilder()
+        .setType("Birthday Cake")
+        .setFlavor("Chocolate")
+        .setFilling("Vanilla Cream")
+        .setSize("Large")
+        .setLayers(3)
+        .setFrostingType("Buttercream")
+        .setFrostingFlavor("Chocolate")
+        .setDecorationType("Sprinkles")
+        .setDecorationColor("Rainbow")
+        .setCustomMessage("Happy Birthday!")
+        .setShape("Round")
+        .setAllergies("None")
+        .setSpecialIngredients("None")
+        .setPackagingType("Boxed")
+        .build();
+
+    const indenCake = IdentifiableCakeBuilder.newBuilder()
+        .setId("C" + Math.random().toString(36).substring(2, 15)) // Generate a random ID
+        .setCake(cake)
+        .build();
+
+
+    const order = OrderBuilder.newBuilder()
+        .setOrderId("O" + Math.random().toString(36).substring(2, 15)) // Generate a random ID
+        .setItem(cake)
+        .setQuantity(2)
+        .setPrice(50)
+        .build();
+
+    const idenOrder = IdentifiableOrderItemBuilder.newBuilder()
+        .setItem(indenCake)
+        .setOrder(order)
+        .build();
+
+    await dbOrder.create(idenOrder);
+
+    await dbOrder.delete(idenOrder.getId());
+
+    console.log((await dbOrder.getAll()).length);
 }
 
-async function mapCakeData(){
-    const cakeData = await readCsvFile('src/data/cake orders.csv');
-    
-    const cakemapper = new CSVCakeMapper();
-    const orderMapper = new CSVOrderMapper(cakemapper);
-    const cakes = cakeData.map(row => orderMapper.map(row));
-    
-    logger.info("List of Cake Orders: \n %o", cakes);
-}
-
-async function mapBookData(){
-    const bookData = await JSONParser.parseJSONFile('src/data/book orders.json');
-
-    const bookMapper = new JSONBookMapper();
-    const booksOrderMapper = new JSONOrderMapper(bookMapper);
-
-    // If you want to ensure bookData is always an array, you can handle it in the parser itself.
-    // Here, we ensure bookData is an array of objects before mapping.
-    const books = Array.isArray(bookData)
-        ? bookData.map((row: any) => booksOrderMapper.map(row))
-        : [];
-
-    logger.info("List of Book Orders: \n %o", books);
-}
-
-async function mapToyData(){
-
-    const toyData = await XMLParser.parseFile('src/data/toy orders.xml');
-
-    const toyMapper = new ToyMapper(); // Assuming you have a mapper for XML as well
-    const toyOrderMapper = new XMLOrderMapper(toyMapper);
-
-    const toys = toyData.data.row.map((row: any) => toyOrderMapper.map(row));
-    
-    logger.info("List of Toy Orders: \n %o", toys);
-}
-
-main();
+DBSandBox().catch(error => logger.error("Error in DBSandBox:", error));

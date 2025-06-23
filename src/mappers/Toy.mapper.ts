@@ -5,7 +5,6 @@ import { IMapper } from "./IMapper";
 export class ToyMapper implements IMapper<any, Toy> {
     map(data: any): Toy {
         return ToyBuilder.newBuilder()
-            .setOrderId(data["OrderID"])
             .setType(data["Type"])
             .setMaterial(data["Material"])
             .setAgeGroup(data["AgeGroup"])
@@ -13,5 +12,16 @@ export class ToyMapper implements IMapper<any, Toy> {
             .setBatteryRequired(data["BatteryRequired"])
             .setEducational(data["Educational"])
             .build();
+    }
+
+    reverseMap(data: Toy): any {
+        return {
+            "Type": data.getType(),
+            "Material": data.getMaterial(),
+            "AgeGroup": data.getAgeGroup(),
+            "Brand": data.getBrand(),
+            "BatteryRequired": String(data.isBatteryRequired()),
+            "Educational": String(data.isEducational())
+        };
     }
 }

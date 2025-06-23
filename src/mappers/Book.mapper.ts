@@ -6,7 +6,6 @@ export class JSONBookMapper implements IMapper<any, Book>{
     map(data: any): Book {
         
         return BookBuilder.newBuilder() 
-            .setOrderId(data["Order ID"])
             .setTitle(data["Book Title"])
             .setAuthor(data["Author"])
             .setGenre(data["Genre"])
@@ -16,5 +15,18 @@ export class JSONBookMapper implements IMapper<any, Book>{
             .setSpecialEdition(data["Special Edition"])
             .setPackaging(data["Packaging"])
             .build();
+    }
+
+    reverseMap(data: Book): any {
+        return {
+            "Book Title": data.getTitle(),
+            "Author": data.getAuthor(),
+            "Genre": data.getGenre(),
+            "Format": data.getFormat(),
+            "Language": data.getLanguage(),
+            "Publisher": data.getPublisher(),
+            "Special Edition": data.getSpecialEdition(),
+            "Packaging": data.getPackaging()
+        };
     }
 }

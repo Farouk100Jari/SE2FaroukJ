@@ -37,7 +37,6 @@ describe('BookBuilder', () => {
     it('should build a Book object when all required fields are set', () => {
         var book = bookBuilder.build();
         expect(book).toBeInstanceOf(Book);
-        expect(book.getOrderId()).toBe(validBookData.orderId);
         expect(book.getTitle()).toBe(validBookData.title);
         expect(book.getAuthor()).toBe(validBookData.author);
         expect(book.getGenre()).toBe(validBookData.genre);

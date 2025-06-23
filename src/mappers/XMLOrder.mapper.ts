@@ -18,4 +18,14 @@ export class XMLOrderMapper implements IMapper<any, IOrder> {
             .setPrice(parseFloat(data["Price"]))
             .build();
     }
+
+    reverseMap(data: IOrder): any {
+        return {
+            "OrderID": data.getId(),
+            ...this.itemMapper.reverseMap(data.getItem()),
+            "Quantity": String(data.getQuantity()),
+            "Price": String(data.getPrice())
+        }
+    }
+
 }

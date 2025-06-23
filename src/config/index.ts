@@ -5,5 +5,11 @@ dotenv.config({path : path.join(__dirname,'../../.env')})
 
 export default {
     logDir: process.env.LOG_DIR || './logs', 
-    isDev: process.env.NODE_ENV === 'development' // Checks if the environment type is 'development'.
+    isDev: process.env.NODE_ENV === 'development', // Checks if the environment type is 'development'.
+    storagePath : {
+        csv : {
+            cake : 'src/data/cake orders.csv'
+        },
+        sqlite :  'src/data/orders.db'
+    }
 }

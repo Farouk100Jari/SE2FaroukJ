@@ -81,7 +81,6 @@ export class BookBuilder {
         }
 
         return new Book(
-            this.orderId,
             this.title,
             this.author,
             this.genre,

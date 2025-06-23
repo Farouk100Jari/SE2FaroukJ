@@ -67,7 +67,6 @@ export class ToyBuilder {
         }
 
         return new Toy(
-            this.orderId,
             this.type,
             this.ageGroup,
             this.brand,

@@ -1,7 +1,6 @@
 import { IItem, ItemCategory } from "./IItem";
 
 export class Book implements IItem {
-    private orderId: string;
     private title: string;
     private author: string;
     private genre: string;
@@ -13,7 +12,6 @@ export class Book implements IItem {
     
 
     constructor(
-        orderId: string,
         title: string,
         author: string,
         genre: string,
@@ -23,7 +21,6 @@ export class Book implements IItem {
         specialEdition: string,
         packaging: string
     ) {
-        this.orderId = orderId;
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -36,11 +33,6 @@ export class Book implements IItem {
 
     getCategory(): ItemCategory {
         return ItemCategory.BOOK;
-    }
-
-    getOrderId(): string {
-        return this.orderId;
-
     }
 
     getTitle(): string {
